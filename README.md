@@ -1,4 +1,4 @@
-# 📦 Sistema de Gerenciamento de Estoque (Estoque)
+# 📦 Sistema de Gerenciamento de Estoque
 
 ## Descrição do Projeto
 
