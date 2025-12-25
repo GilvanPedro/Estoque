@@ -2,14 +2,47 @@ package br.com;
 
 import br.com.Controller.EstoqueController;
 import br.com.Controller.MovimentacaoEstoqueController;
+import br.com.Controller.UsuarioController;
+import br.com.Criptografia.Password;
+import br.com.Entity.User;
 
 import java.util.Scanner;
 
 public class GerenciarEstoque {
     public void controleEstoque(){
         Scanner sc = new Scanner(System.in);
+        UsuarioController usuarioController  = new UsuarioController();
+        Password password =  new Password();
         MovimentacaoEstoqueController movimentacaoController = new MovimentacaoEstoqueController();
         EstoqueController controller = new EstoqueController(movimentacaoController);
+        String email2 = "";
+
+        System.out.println("======= CRIAR CONTA =======");
+        System.out.print("Nome: ");
+        String nomeUser = sc.nextLine();
+        System.out.print("Email: ");
+        String email = sc.nextLine();
+        System.out.print("Senha: ");
+        String senha = sc.nextLine();
+
+        usuarioController.novoUsuario(nomeUser, email, senha);
+
+// LOGIN REAL
+        System.out.println("\n======= LOGIN =======");
+        while (true) {
+            System.out.print("Email: ");
+            email2 = sc.nextLine();
+            System.out.print("Senha: ");
+            String senha2 = sc.nextLine();
+
+            if(usuarioController.autenticar(email2, senha2)){
+                System.out.println("Login efetuado com sucesso!\n");
+                break;
+            } else {
+                System.out.println("Email ou senha inválidos!\n");
+            }
+        }
+
 
         String opc = "";
         System.out.println("================= GERENCIAR ESTOQUE =================");
