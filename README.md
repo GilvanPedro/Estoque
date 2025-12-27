@@ -1,85 +1,122 @@
 # 📦 Sistema de Gerenciamento de Estoque (Estoque)
 
+## 🌟 Status do Projeto
+
+[![Linguagem Principal](https://img.shields.io/badge/Java-17%2B-red.svg?style=for-the-badge&logo=java)](https://www.java.com/pt-br/)
+[![Build Tool](https://img.shields.io/badge/Maven-3.x-orange.svg?style=for-the-badge&logo=apache-maven)](https://maven.apache.org/)
+[![Segurança](https://img.shields.io/badge/jBCrypt-0.4-blue.svg?style=for-the-badge&logo=bcrypt)](https://www.mindrot.org/projects/jBCrypt/)
+[![Licença](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
+
 ## 🎯 Visão Geral do Projeto
 
-O **Estoque** é uma aplicação de gerenciamento de inventário desenvolvida em **Java** que opera via **Interface de Linha de Comando (CLI)**. O projeto foi concebido para demonstrar a aplicação de princípios de **Programação Orientada a Objetos (POO)** e a utilização de um *build tool* moderno como o **Maven** em um contexto de aplicação de console.
+O **Estoque** é uma aplicação robusta de gerenciamento de inventário desenvolvida em **Java** com foco em operar via **Interface de Linha de Comando (CLI)**. O projeto serve como um excelente estudo de caso para a aplicação de **Programação Orientada a Objetos (POO)** e a organização de código utilizando o padrão **MVC (Model-View-Controller)** adaptado para um ambiente de console.
 
-O sistema permite o controle básico de produtos e a gestão de usuários, incluindo um mecanismo de autenticação simples, mas seguro, utilizando *hashing* de senhas.
+O sistema foi projetado para oferecer um controle básico, mas eficiente, de produtos e a gestão de usuários, incorporando um mecanismo de autenticação seguro através do *hashing* de senhas com a biblioteca **jBCrypt**.
 
-## 🏛 Arquitetura e Design
+## 🏛 Arquitetura e Design de Software
 
-A aplicação adota uma arquitetura modular que segue, de forma simplificada, o padrão **Model-View-Controller (MVC)**, embora adaptado para um ambiente de console. O código está estruturado em pacotes claros, promovendo a separação de responsabilidades:
+A arquitetura da aplicação é baseada em uma clara separação de responsabilidades, facilitando a manutenção e a escalabilidade. A estrutura de pacotes reflete um design modular, conforme detalhado abaixo:
 
-| Pacote | Responsabilidade | Descrição |
+### Diagrama de Pacotes (Representação Textual)
+
+```mermaid
+graph TD
+    A[Main.java] --> B(GerenciarEstoque.java);
+    B --> C(Controller);
+    C --> D(Entity);
+    B --> E(Criptografia);
+    E --> D;
+    style B fill:#f9f,stroke:#333,stroke-width:2px
+    style C fill:#ccf,stroke:#333,stroke-width:2px
+    style D fill:#ddf,stroke:#333,stroke-width:2px
+    style E fill:#ffc,stroke:#333,stroke-width:2px
+```
+
+| Pacote | Papel no MVC (Adaptado) | Responsabilidades Chave |
 | :--- | :--- | :--- |
-| `br.com.Entity` | **Model** (Entidades) | Contém as classes de dados, como `Estoque` (Produto) e `Usuario`, que representam as informações do sistema. |
-| `br.com.Controller` | **Controller** (Lógica de Negócio) | Contém a lógica de negócio e as operações de manipulação de dados, como `EstoqueController`, `MovimentacaoEstoqueController` e `UsuarioController`. |
-| `br.com` | **View/Main** (Interface e Inicialização) | Contém a classe `Main` para inicialização e a classe `GerenciarEstoque`, que atua como a **View** (apresentando o menu e recebendo a entrada do usuário) e o **Controlador Principal** (orquestrando as chamadas aos *Controllers* de negócio). |
-| `br.com.Criptografia` | **Serviço** (Segurança) | Contém a lógica para *hashing* de senhas, garantindo que as credenciais dos usuários sejam armazenadas de forma segura. |
-
-O fluxo de controle é iniciado em `Main.java`, que instancia `GerenciarEstoque` e chama o método `controleEstoque()`, que é o *loop* principal de interação com o usuário.
+| `br.com.Entity` | **Model** | Representação dos dados (Produto, Usuário). |
+| `br.com.Controller` | **Controller** | Lógica de negócio, manipulação de dados e regras de validação. |
+| `br.com.GerenciarEstoque` | **View/Controlador Principal** | Interação com o usuário (menus, inputs) e orquestração dos *Controllers*. |
+| `br.com.Criptografia` | **Serviço de Segurança** | *Hashing* e verificação de senhas. |
 
 ## ✨ Funcionalidades Detalhadas
 
-O sistema oferece as seguintes funcionalidades, acessíveis via menu de console:
+O sistema oferece um conjunto completo de ferramentas para a gestão de um pequeno estoque:
 
-1.  **Gestão de Produtos:**
-    *   Adicionar novos produtos ao estoque.
-    *   Listar todos os produtos com seus detalhes.
-    *   Remover produtos existentes.
-    *   Buscar produtos por ID.
-2.  **Gestão de Usuários:**
-    *   Criação de novas contas de usuário.
-    *   Autenticação (Login) de usuários.
-3.  **Movimentação de Estoque:**
-    *   Registro de entrada e saída de produtos, mantendo um histórico de movimentações.
+*   **Gestão de Produtos:** Funções CRUD (Criar, Ler, Atualizar, Deletar) para itens do estoque.
+*   **Controle de Usuários:** Cadastro e Login seguro com *hashing* de senhas.
+*   **Movimentação de Estoque:** Registro de entradas e saídas de produtos, essencial para auditoria e rastreabilidade.
 
 ## 🛠 Tecnologias e Dependências
 
-O projeto é construído com **Java 17+** e utiliza o **Maven** para gerenciamento de dependências e ciclo de vida do projeto.
-
-| Tecnologia | Versão | Tipo | Detalhe |
+| Tecnologia | Versão | Tipo | Propósito |
 | :--- | :--- | :--- | :--- |
-| **Java** | 17+ | Linguagem | Requisito de *runtime* e compilação. |
-| **Maven** | 3.x | Build Tool | Gerenciamento de dependências e empacotamento. |
-| **jBCrypt** | 0.4 | Dependência | Utilizada para o *hashing* seguro de senhas no módulo de `Criptografia`. |
+| **Java** | 17+ | Linguagem | Plataforma de desenvolvimento. |
+| **Maven** | 3.x | Build Tool | Gerenciamento de dependências e ciclo de vida. |
+| **jBCrypt** | 0.4 | Dependência | Implementação do algoritmo de *hashing* de senhas BCrypt. |
 
 ## ⚙ Pré-requisitos
 
-Certifique-se de ter os seguintes softwares instalados em sua máquina:
+Para compilar e executar o projeto, é necessário ter instalado:
 
 *   **Java Development Kit (JDK)**: Versão 17 ou superior.
 *   **Apache Maven**: Versão 3.x ou superior.
 
 ## 🚀 Instalação e Execução
 
-Siga os passos abaixo para configurar e rodar a aplicação:
+### 1. Clonagem e Compilação
 
-1.  **Clone o Repositório:**
-    ```bash
-    git clone https://github.com/GilvanPedro/Estoque.git
-    cd Estoque/Estoque
-    ```
+```bash
+# 1. Clone o repositório
+git clone https://github.com/GilvanPedro/Estoque.git
+cd Estoque/Estoque
 
-2.  **Compile e Empacote o Projeto:**
-    Utilize o Maven para limpar, compilar e empacotar o projeto em um arquivo JAR executável:
-    ```bash
-    mvn clean install
-    ```
+# 2. Compile e empacote o projeto
+mvn clean install
+```
 
-3.  **Execute a Aplicação:**
-    O arquivo JAR será gerado no diretório `target`. Execute-o com o comando `java -jar`:
-    ```bash
-    java -jar target/Estoque-1.0-SNAPSHOT.jar
-    ```
-    *Nota: O nome do arquivo JAR (`Estoque-1.0-SNAPSHOT.jar`) pode variar ligeiramente dependendo da versão do projeto.*
+### 2. Execução da Aplicação
 
-4.  **Interação:**
-    A aplicação será iniciada no console, solicitando o login ou a criação de uma nova conta. Siga as instruções do menu para interagir com o sistema de estoque.
+```bash
+# Execute o arquivo JAR gerado na pasta target
+java -jar target/Estoque-1.0-SNAPSHOT.jar
+```
+
+## 🕹 Exemplo de Uso (CLI)
+
+Ao iniciar a aplicação, você será solicitado a criar uma conta ou fazer login.
+
+```
+========== CRIAR CONTA ==========
+Nome: Gilvan
+Email: gilvan@gmail.com
+Senha: ********
+=================================
+Usuário criado com sucesso!
+
+========== LOGIN ==========
+Email: gilvan@gmail.com
+Senha: ********
+===========================
+Login realizado com sucesso!
+
+========== GERENCIAR ESTOQUE ==========
+1 - Adicionar Produto
+2 - Listar Produtos
+3 - Remover Produto
+4 - Buscar Produto
+0 - Voltar
+Escolha uma opção: 1
+Nome do Produto: Notebook
+Quantidade: 10
+Descrição: Laptop de alta performance
+Preço: 4500.00
+Produto adicionado com sucesso!
+```
 
 ## 📄 Licença
 
-Este projeto está licenciado sob a **Licença MIT**. Para detalhes completos, consulte o arquivo [LICENSE](LICENSE) no repositório.
+Este projeto está sob a **Licença MIT**. Sinta-se à vontade para inspecionar, modificar e distribuir o código. Consulte o arquivo [LICENSE](LICENSE) para mais informações.
 
 ## 🧑‍💻 Autor
 
